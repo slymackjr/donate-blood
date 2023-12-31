@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Log;
 use Illuminate\View\View;
 use App\Models\StaffMember;
 use Illuminate\Http\Request;
@@ -116,5 +117,61 @@ class StaffController extends Controller
 
     return redirect()->route('staff.requestDonor');
 }
+
+   
+    public function showCreateRequest(Request $request): View
+    {
+          // Access the session data
+          $donorEmail =  $request->input('donor_email');
+          $username =  Session::get('email');
+
+          $hospitalOfficer = new HospitalOfficer();
+
+          $hospitalOfficer->getOfficerDetails($username); 
+
+        return view('request-donor-create', [
+            'username' => $username,
+            'staffname' => $hospitalOfficer->getFullName(),
+            'staffphone' => $hospitalOfficer->getPhoneNumber(),
+            'staffemail' => $hospitalOfficer->getEmail(),
+            'donorDetails' => $hospitalOfficer->createRequest($donorEmail),
+        ]);
+
+}
+
+public function submitRequest(Request $request): View
+{
+    $requesterName = $request->input('requester_name');
+    $requesterContact = $request->input('requester_contact');
+    $bloodType = $request->input('blood_type');
+    $appointmentDate = $request->input('appointment_date');
+    $staffEmail = $request->input('staff_email');
+    $donorEmail = $request->input('donor_email');
+
+    $staffRequest = new HospitalOfficer();
+    $sucess = $staffRequest->submitRequest($requesterName,$requesterContact,$bloodType,$appointmentDate,$staffEmail,$donorEmail);
+
+    if($sucess){
+        session()->flash('success_message', 'Your request has been sent.');
+        return view('request-donor-create', [
+            'username' => $staffEmail,
+            'staffname' => $requesterName,
+            'staffphone' => $requesterContact,
+            'staffemail' => $staffEmail,
+            'donorDetails' => $staffRequest->createRequest($donorEmail),
+        ]);
+    }
+    session()->flash('success_message', 'Your request has been sent.');
+    return view('request-donor-create', [
+        'username' => $staffEmail,
+        'staffname' => $requesterName,
+        'staffphone' => $requesterContact,
+        'staffemail' => $staffEmail,
+        'donorDetails' => $staffRequest->createRequest($donorEmail),
+
+    ]);
+}
+
+
 
 }

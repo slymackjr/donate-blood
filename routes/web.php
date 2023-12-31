@@ -23,5 +23,7 @@ Route::get('/register-staff', [StaffController::class, 'showRegisterForm'])->nam
 Route::post('/register-staff', [StaffController::class, 'register'])->name('register.staff.method');
 
 Route::middleware(['staff.auth'])->get('/request-donor', [StaffController::class, 'RequestDonor'])->name('staff.requestDonor');
+Route::middleware(['staff.auth'])->match(['get', 'post'], '/create-request', [StaffController::class, 'showCreateRequest'])->name('staff.createRequest');
+Route::middleware(['staff.auth'])->post('/submit-request', [StaffController::class, 'submitRequest'])->name('staff.submitRequest');
 
 Route::get('/logout', [StaffController::class, 'logout'])->name('logout.staff')->middleware('staff.auth');    

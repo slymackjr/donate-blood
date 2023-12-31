@@ -342,7 +342,7 @@ class HospitalOfficer
 
         try {
             // Use Eloquent model to retrieve all donors
-            $donors = BloodDonor::all();
+            $donors = BloodDonor::orderBy('full_name')->get();
 
             // Convert the Eloquent collection to an array
             $resultArray = $donors->toArray();
@@ -369,6 +369,44 @@ class HospitalOfficer
 
         return $resultArray;
     }
+
+    public function createRequest($donorEmail): array
+{
+
+    $resultArray = array();
     
+    // Retrieve donor details based on donor email
+    $donorDetails = BloodDonor::where('email', $donorEmail)->first();
+
+        // Add donor details to the result array
+        $resultArray = $donorDetails->toArray();
+   
+
+    return $resultArray;
+}
+
+    public function submitRequest($requester_name,$requester_contact,$blood_type,$appointment_date,$staff_email,$donor_email): bool
+    {
+        $request_date = now();
+        $request_status = "pending";
+        $bloodRequest = new BloodRequest();
+        $bloodRequest->setAttribute('requester_name',$requester_name);
+        $bloodRequest->setAttribute('requester_contact',$requester_contact);
+        $bloodRequest->setAttribute('blood_type',$blood_type);
+        $bloodRequest->setAttribute('request_status',$request_status);
+        $bloodRequest->setAttribute('request_date',$request_date);
+        $bloodRequest->setAttribute('appointment_date',$appointment_date);
+        $bloodRequest->setAttribute('staff_email',$staff_email);
+        $bloodRequest->setAttribute('donor_email',$donor_email);
+
+        $success = $bloodRequest->save();
+
+        if($success){
+            return true;
+        }
+        return false;
+    }
+
+
 }
 
