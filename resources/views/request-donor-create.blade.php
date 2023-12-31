@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
   </head>
   <body>
       <div class="text-center p-3 container-md ">
@@ -59,92 +60,72 @@
                       @endauth 
                     </li>
                 </ul>
-            </li>
+              </li>
             </ul>
           </div>
         </div>
       </nav>
-        <div id="carouselExample" class="carousel">
-          <div class="carousel-inner">
-          @foreach ($fewDonors as $row)
-            <div class="carousel-item p-2">
-              <div class="card border-white rounded-4 trasparent">
-                <div class="card-body">
-                  <h5 class="card-title text-center">DONOR</h5>
-                  <p class="card-text"><Span>NAME: </Span>{{$row['full_name']}}</p>
-                  <p class="card-text"><Span>GENDER: </Span>{{$row['gender']}}</p>
-                  <p class="card-text"><Span>LOCATION: </Span>{{$row['address']}}</p>
-                  <p class="card-text"><Span>BLOOD GROUP: </Span>{{$row['blood_type']}}</p>
-                  <p class="card-text"><Span>HEALTH: </Span>{{$row['status']}}</p>
-                  <form action="{{ route('staff.createRequest') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="donor_email" value="{{ $row['email'] }}">
-                    <p class="card-text text-center">
-                        <button type="submit" class="btn link-secondary">More...</button>
-                    </p>
-                  </form>
-                  <form action="{{ route('staff.createRequest') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="donor_email" value="{{ $row['email'] }}">
-                    <p class="card-text text-center">
-                        <button type="submit" class="btn btn-primary">Request</button>
-                    </p>
-                  </form>
-                </div>
-              </div>
-            </div>
-            @endforeach
-          </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div>
 
-        <!-- cards viewers-->
-        <div class="container">
-          <div class="row">
-          @foreach ($allDonors as $donor)
-            <article class="col-md-4 col-lg-3">
-              <div class="card-content rounded-4">
-                <h5 class="card-title text-center">DONOR</h5>
-                <p class="card-text"><Span>NAME: </Span>{{$donor['full_name']}}</p>
-                <p class="card-text"><Span>GENDER: </Span>{{$donor['gender']}}</p>
-                <p class="card-text"><Span>LOCATION: </Span>{{$donor['address']}}</p>
-                <p class="card-text"><Span>BLOOD GROUP: </Span>{{$donor['blood_type']}}</p>
-                <p class="card-text"><Span>HEALTH: </Span>{{$donor['status']}}</p>
-                <form action="{{ route('staff.createRequest') }}" method="POST">
-                  @csrf
-                  <input type="hidden" name="donor_email" value="{{ $donor['email'] }}">
-                  <p class="card-text text-center">
-                      <button type="submit" class="btn link-secondary">More...</button>
-                  </p>
-                </form>
-                <form action="{{ route('staff.createRequest') }}" method="POST">
-                  @csrf
-                  <input type="hidden" name="donor_email" value="{{ $donor['email'] }}">
-                  <p class="card-text text-center">
-                      <button type="submit" class="btn btn-primary">Request</button>
-                  </p>
-                </form>
-              </div>
-              <!-- .card-content -->
-            </article>
-            <!-- .card -->
-            @endforeach
-        
-          </div>
-        </div>
-     
+    @if(!is_null(session('success_message')))  
+       <!-- Alert to be displayed -->
+    <p class="text-center alert alert-success" id="myAlert"><strong>{{session('success_message')}}</strong></p>
+
+    <!-- Add this script at the end of the body tag -->
+    <script>
+        // Function to hide the alert after 2 seconds
+        function hideAlert() {
+            var alertDiv = document.getElementById('myAlert');
+            alertDiv.style.display = 'none';
+        }
+
+        // Show the alert
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(hideAlert, 2000);
+        });
+    </script>
+    @endif
+
+            <div class="container-md d-flex justify-content-center align-items-center">
+                <div class="card border-white rounded-4 trasparent">
+                    <div class="card-body">
+                      <h5 class="card-title text-center">DONOR</h5>
+                      <p class="card-text"><Span>DONOR ID: </Span>{{$donorDetails['donor_id']}}</p>
+                      <p class="card-text"><Span>DONOR USERNAME: </Span>{{$donorDetails['username']}}</p>
+                      <p class="card-text"><Span>DONOR FULL NAME: </Span>{{$donorDetails['full_name']}}</p>
+                      <p class="card-text"><Span>DONOR GENDER: </Span>{{$donorDetails['gender']}}</p>
+                      <p class="card-text"><Span>DONOR BLOOD TYPE: </Span>{{$donorDetails['blood_type']}}</p>
+                      <p class="card-text"><Span>DONOR ADDRESS: </Span>{{$donorDetails['address']}}</p>
+                      <p class="card-text"><Span>DONOR PHONE NUMBER: </Span>{{$donorDetails['phone_number']}}</p>
+                      <p class="card-text"><Span>DONOR BIRTHDATE: </Span>{{$donorDetails['birthdate']}}</p>
+                      <p class="card-text"><Span>DONOR EMAIL: </Span>{{$donorDetails['email']}}</p>
+                      <p class="card-text"><Span>DONOR STATUS: </Span>{{$donorDetails['status']}}</p>
+                      <p class="card-text"><Span>DONOR REGISTER DATE: </Span>{{$donorDetails['register_date']}}</p>
+                      <p class="card-text text-center">
+                        <form action="{{ route('staff.submitRequest') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="requester_name" value="{{ $staffname }}">
+                        <input type="hidden" name="requester_contact" value="{{ $staffphone }}">
+                        <input type="hidden" name="blood_type" value="{{ $donorDetails['blood_type'] }}">
+                        <input type="hidden" name="staff_email" value="{{ $staffemail }}">
+                        <input type="hidden" name="donor_email" value="{{ $donorDetails['email'] }}">
+                        <div class="mb-3">
+                            <label for="appointment_date" class="form-label">Appointment Date</label>
+                            <div class="input-group date" id="appointment_date_picker" data-target-input="nearest">
+                                <input type="datetime-local" name="appointment_date" id="appointment_date" class="form-control"/>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Request</button>
+                        </form>
+                    </p>
+                    </div>
+                  </div>
+            </div>
+
+      
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="{{ asset('js/custom.js') }}"></script>    
-   
   </body>
 </html>
