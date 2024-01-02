@@ -61,7 +61,7 @@ class StaffMember extends Model implements Authenticatable
         'email' => 'string',        
         'password' => 'string',     
         'status' => 'string',
-        ' register_date' => 'timestamp',        
+        ' register_date' => 'string',        
         'hospital_id' => 'integer',
     ];
      
