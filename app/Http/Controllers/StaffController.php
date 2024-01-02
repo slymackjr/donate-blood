@@ -78,7 +78,7 @@ class StaffController extends Controller
         // Handle redirection based on success or failure
         if ($message) {
             // Registration successful
-            return redirect()->route('login.staff');
+            return redirect()->route('staff.requestDonor');
         } else {
             // Registration failed
             return redirect()->route('register.staff');
@@ -101,6 +101,7 @@ class StaffController extends Controller
          // Handle redirection based on success or failure
          if ($success) {
             // Login successful
+            session()->flash('success', 'Welcome back.');
             return redirect()->route('staff.requestDonor');
         } else {
             // Login failed

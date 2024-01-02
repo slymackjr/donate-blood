@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Blood Donation</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -64,6 +64,24 @@
           </div>
         </div>
       </nav>
+      @if(!is_null(session('success')))  
+       <!-- Alert to be displayed -->
+    <p class="text-center alert alert-success" id="myAlert"><strong>{{session('success')}}</strong></p>
+
+    <!-- Add this script at the end of the body tag -->
+    <script>
+        // Function to hide the alert after 2 seconds
+        function hideAlert() {
+            var alertDiv = document.getElementById('myAlert');
+            alertDiv.style.display = 'none';
+        }
+
+        // Show the alert
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(hideAlert, 2000);
+        });
+    </script>
+    @endif
         <div id="carouselExample" class="carousel">
           <div class="carousel-inner">
           @foreach ($fewDonors as $row)
@@ -141,10 +159,9 @@
         </div>
      
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="{{ asset('js/custom.js') }}"></script>    
-   
+        
   </body>
 </html>

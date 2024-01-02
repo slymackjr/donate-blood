@@ -204,13 +204,13 @@ class HospitalOfficer
                 $this->full_name = $user->full_name;
                 $this->email = $user->email;
                 $this->gender = $user->gender;
-                //$this->department = $user->department;
+                $this->department = $user->department;
                 $this->address = $user->address;
                 $this->phone_number = $user->phone_number;
                 $this->email = $user->email;
                 $this->status = $user->status;
                 $this->register_date = $user->register_date;
-                //$this->hospital_id = $user->hospital_id;
+                $this->hospital_id = $user->hospital_id;
                 $this->job_title = $user->job_title;
 
                 $success = true;
@@ -313,15 +313,26 @@ class HospitalOfficer
 
                     if ($newStaffMember->save()) {
                          // Log in the user after successful registration
-                         Auth::guard('staff')->login($newStaffMember);
-                        session([
-                            'success' => 'Registered Successfully!',
-                            'user' => $newStaffMember->staff_id,
-                            'username' => $newStaffMember->username,
-                            'userEmail' => $newStaffMember->email,
-                        ]);
-                        
-                        return true;
+                          // Use Eloquent model to retrieve the officer based on the email
+                        $user = StaffMember::where('email', $email)->first();
+
+                        if ($user !== null) {
+                            if ($user->status) {
+                                // Attempt to authenticate using the 'staff' guard
+                                if (Auth::guard('staff')->attempt(['email' => $email, 'password' => $password])) {
+                                    // Authentication successful, store email in session
+                                    Session::put('email', $email);
+                                    session()->flash('success', 'Registered successfully.');
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            } else {
+                                return false;
+                            }
+                        } else {
+                            return false;
+                        }
                         
                     } else {
                         session()->flash('error', 'Failed to Register! Please try again.');
