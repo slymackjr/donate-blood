@@ -14,7 +14,7 @@ use App\Http\Controllers\StaffController;
 |
 */
 
-Route::get('/home', [StaffController::class, 'index'])->name('index.home');
+Route::get('/', [StaffController::class, 'index'])->name('index.home');
 
 Route::get('/login-staff', [StaffController::class, 'showLoginForm'])->name('login.staff');
 Route::post('/login-staff', [StaffController::class, 'login'])->name('login.staff.method');
