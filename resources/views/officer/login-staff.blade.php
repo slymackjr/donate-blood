@@ -14,44 +14,10 @@
   </head>
   <body>
       <div class="text-center p-3 container-md ">
-        <img src="img/logo1.png" class="h-25 w-50 rounded" alt="...">
+        <a href="{{route('index.home')}}">
+          <img src="img/logo1.png" class="h-25 w-50 rounded" alt="...">
+        </a>
       </div>
-      <nav class="navbar navbar-expand-lg bg-primary">
-        <div class="container-fluid">
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active ps-4 pe-4 text-white" aria-current="page" href="{{route('index.home')}}"><i class="fa-solid fa-house p-2"></i>Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link  ps-4 pe-4 text-white" href="{{route('index.home')}}"><i class="fa-solid fa-list p-2"></i>request Donor</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link  ps-4 pe-4 text-white" href="{{route('index.home')}}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa-solid fa-calendar-check p-2"></i>  Appointments
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link  ps-4 pe-4 text-white" href="{{route('index.home')}}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa-solid fa-info p-2"></i>  About Us
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link  ps-4 pe-4 text-white" href="{{route('index.home')}}p" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa-solid fa-phone p-2"></i>  Contact Us
-                </a>
-              </li>
-            </ul>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success text-white" type="submit">Search</button>
-            </form>
-          </div>
-        </div>
-      </nav>
       <div id="intro-example" class="p-5 text-center bg-image align-items-center">
         <section>
             <div class="container h-100">
@@ -60,14 +26,11 @@
                   <div class="card text-black" style="border-radius: 25px;">
                     <div class="card-body p-md-5">
                       <div class="row justify-content-center">
-                        <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-          
+                        <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">          
                           <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Welcome Back Staff!</p>
-
                           @if(session('error'))
                           <p class="text-center text-danger mb-5 mx-1 mx-md-4 mt-4">{{ session('error') }}!</p>
-                         @endif
-                      
+                         @endif                     
                           <form class="mx-1 mx-md-4" method="post" action="{{ route('login.staff.method') }}">
                             @csrf
                             <div class="d-flex flex-row align-items-center mb-4">
@@ -75,15 +38,13 @@
                               <div class="form-outline flex-fill mb-0">
                                 <input type="email" name="email" id="form3Example3c" class="form-control" placeholder="Your email"/>
                               </div>
-                            </div>
-          
+                            </div>          
                             <div class="d-flex flex-row align-items-center mb-4">
                               <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                               <div class="form-outline flex-fill mb-0">
                                 <input type="password" name="password" id="form3Example4c" class="form-control" placeholder="Password"/>
                               </div>
-                            </div>
-          
+                            </div>         
                             <div class="form-check d-flex justify-content-center mb-5">
                               <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3c" />
                               <label class="form-check-label" for="form2Example3">
@@ -95,16 +56,12 @@
                             </div>
                             <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                             <p class="small mb-0">Don't have account? <a href="{{route('register.staff')}}">Create an account</a></p>
-                            </div>
-          
-                          </form>
-          
+                            </div>          
+                          </form>          
                         </div>
-                        <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-          
+                        <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">         
                           <img src="img/lable.jpg"
                             class="img-fluid rounded-4" alt="Sample image">
-          
                         </div>
                       </div>
                     </div>
@@ -113,8 +70,7 @@
               </div>
             </div>
           </section>
-    </div>
-     
+    </div> 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>

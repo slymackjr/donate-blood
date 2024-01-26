@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class StaffAuthentication
+class DonorAuthentication
 {
     /**
      * Handle an incoming request.
@@ -15,11 +15,10 @@ class StaffAuthentication
      */
     public function handle(Request $request, Closure $next): Response
     {
-                // Check if the user is a staff member
-                if (auth('staff')->check()) {
-                return $next($request);
-    }
-    return redirect()->route('index.home');
+       // Check if the user is a staff member
+       if (auth('donors')->check()) {
+        return $next($request);
 }
-
+    return redirect()->route('index.home');
+    }
 }
