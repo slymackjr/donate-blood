@@ -24,29 +24,29 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active ps-4 pe-4 text-white" aria-current="page" href="{{route('index.home')}}"><i class="fa-solid fa-house p-2"></i>Home</a>
+                <a class="nav-link active ps-4 pe-4 text-white" aria-current="page" href="{{route('staff.requestDonor')}}"><i class="fa-solid fa-house p-2"></i>Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link  ps-4 pe-4 text-white" href="{{route('staff.requestDonor')}}"><i class="fa-solid fa-list p-2"></i>Requests</a>
+                <a class="nav-link  ps-4 pe-4 text-white" href="{{route('staff.viewRequests')}}"><i class="fa-solid fa-list p-2"></i>Sent Requests</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link  ps-4 pe-4 text-white" href="{{route('staff.requestDonor')}}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa-solid fa-calendar-check p-2"></i>  Appointments
+                <a class="nav-link  ps-4 pe-4 text-primary" href="{{route('staff.viewAcceptedRequests')}}">
+                <i class="fa-solid fa-calendar-check p-2"></i>  Accepted Requests
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link  ps-4 pe-4 text-white" href="{{route('staff.requestDonor')}}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link  ps-4 pe-4 text-white" href="{{route('staff.aboutUs')}}">
                 <i class="fa-solid fa-info p-2"></i>  About Us
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link  ps-4 pe-4 text-white" href="{{route('staff.requestDonor')}}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link  ps-4 pe-4 text-white" href="{{route('staff.contactUs')}}">
                 <i class="fa-solid fa-phone p-2"></i>  Contact Us
                 </a>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
-                data-mdb-toggle="dropdown" aria-expanded="false"> <i class="fas fa-user mx-1"></i>{{$username}}</a>
+                data-mdb-toggle="dropdown" aria-expanded="false"> <i class="fas fa-user mx-1"></i>{{session('email')}}</a>
                 <!-- Dropdown menu -->
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <li>
@@ -82,32 +82,28 @@
         });
     </script>
     @endif
+    {{-- 
         <div id="carouselExample" class="carousel">
           <div class="carousel-inner">
           @foreach ($fewDonors as $row)
             <div class="carousel-item p-2">
               <div class="card border-white rounded-4 trasparent">
                 <div class="card-body">
-                  <h5 class="card-title text-center">DONOR</h5>
-                  <p class="card-text"><Span>NAME: </Span>{{$row['full_name']}}</p>
-                  <p class="card-text"><Span>GENDER: </Span>{{$row['gender']}}</p>
-                  <p class="card-text"><Span>LOCATION: </Span>{{$row['address']}}</p>
-                  <p class="card-text"><Span>BLOOD GROUP: </Span>{{$row['blood_type']}}</p>
-                  <p class="card-text"><Span>HEALTH: </Span>{{$row['status']}}</p>
-                  <form action="{{ route('staff.createRequest') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="donor_email" value="{{ $row['email'] }}">
-                    <p class="card-text text-center">
-                        <button type="submit" class="btn link-secondary">More...</button>
-                    </p>
-                  </form>
-                  <form action="{{ route('staff.createRequest') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="donor_email" value="{{ $row['email'] }}">
-                    <p class="card-text text-center">
-                        <button type="submit" class="btn btn-primary">Request</button>
-                    </p>
-                  </form>
+                    <h5 class="card-title text-center">DONOR APPOINTMENT</h5>
+                    <p class="card-text"><Span>NAME: </Span>{{$row['full_name']}}</p>
+                    <p class="card-text"><Span>GENDER: </Span>{{$row['gender']}}</p>
+                    <p class="card-text"><Span>LOCATION: </Span>{{$row['address']}}</p>
+                    <p class="card-text"><Span>BLOOD GROUP: </Span>{{$row['blood_type']}}</p>
+                    <p class="card-text"><Span>PHONE NUMBER: </Span>{{$row['phone_number']}}</p>
+                    <p class="card-text"><Span>APPOINTMENT DATE: </Span>{{$row['request_date']}}</p>
+                    <p class="card-text"><Span>EMAIL: </Span>{{$row['email']}}</p>
+                    <form action="{{ route('staff.createRequest') }}" method="POST">
+                      @csrf
+                      <input type="hidden" name="donor_email" value="{{ $row['email'] }}">
+                      <p class="card-text text-center">
+                          <button type="submit" class="btn btn-primary">Attended</button>
+                      </p>
+                    </form>
                 </div>
               </div>
             </div>
@@ -122,42 +118,44 @@
             <span class="visually-hidden">Next</span>
           </button>
         </div>
+ --}}
+        
+        <div id="carouselExample" class="carousel">
+          <div class="carousel-inner">
+          </div>
+        </div>
 
         <!-- cards viewers-->
         <div class="container">
           <div class="row">
           @foreach ($allDonors as $donor)
-            <article class="col-md-4 col-lg-3">
-              <div class="card-content rounded-4">
-                <h5 class="card-title text-center">DONOR</h5>
-                <p class="card-text"><Span>NAME: </Span>{{$donor['full_name']}}</p>
-                <p class="card-text"><Span>GENDER: </Span>{{$donor['gender']}}</p>
-                <p class="card-text"><Span>LOCATION: </Span>{{$donor['address']}}</p>
-                <p class="card-text"><Span>BLOOD GROUP: </Span>{{$donor['blood_type']}}</p>
-                <p class="card-text"><Span>HEALTH: </Span>{{$donor['status']}}</p>
-                <form action="{{ route('staff.createRequest') }}" method="POST">
-                  @csrf
-                  <input type="hidden" name="donor_email" value="{{ $donor['email'] }}">
-                  <p class="card-text text-center">
-                      <button type="submit" class="btn link-secondary">More...</button>
-                  </p>
-                </form>
-                <form action="{{ route('staff.createRequest') }}" method="POST">
-                  @csrf
-                  <input type="hidden" name="donor_email" value="{{ $donor['email'] }}">
-                  <p class="card-text text-center">
-                      <button type="submit" class="btn btn-primary">Request</button>
-                  </p>
-                </form>
-              </div>
-              <!-- .card-content -->
-            </article>
+          <article class="col-md-4 col-lg-3">
+            <div class="card bg-light rounded-4 shadow">
+                <div class="card-body">
+                    <h5 class="card-title text-center text-uppercase mb-4 text-primary">Donor Appointment</h5>
+                    <ul class="list-unstyled">
+                        <li><strong>Name:</strong> {{$donor['full_name']}}</li>
+                        <li><strong>Gender:</strong> {{$donor['gender']}}</li>
+                        <li><strong>Location:</strong> {{$donor['address']}}</li>
+                        <li><strong>Blood Group:</strong> {{$donor['blood_type']}}</li>
+                        <li><strong>Phone Number:</strong> {{$donor['phone_number']}}</li>
+                        <li><strong>Appointment Date:</strong> {{$donor['request_date']}}</li>
+                        <li><strong>Email:</strong> {{$donor['email']}}</li>
+                    </ul>
+                    <form action="{{ route('staff.deleteRequest') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="request_id" value="{{ $donor['request_id'] }}">
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-success btn-lg">Attended</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </article>        
             <!-- .card -->
-            @endforeach
-        
+            @endforeach        
           </div>
-        </div>
-     
+        </div>    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>

@@ -4,6 +4,7 @@ namespace App\Models;
 use App\Models\Hospital;
 use App\Models\BloodDonor;
 use App\Models\StaffMember;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
@@ -294,7 +295,7 @@ class HospitalOfficer
                 return false;
             }
                     $now = now();
-                    $code = 'active';
+                    $code = 'Active';
 
                     // Use Eloquent model to insert new staff member
                     $newStaffMember = new StaffMember();
@@ -352,25 +353,14 @@ class HospitalOfficer
         $resultArray = array();
 
         try {
-            // Use Eloquent model to retrieve all donors
-            $donors = BloodDonor::orderBy('full_name')->get();
-
-            // Convert the Eloquent collection to an array
-            $resultArray = $donors->toArray();
-        } catch (ModelNotFoundException $e) {
-            "There is some problem in connection: " . $e->getMessage();
-        }
-
-        return $resultArray;
-    }
-
-    public function viewFewDonors(): array
-    {
-        $resultArray = array();
-
-        try {
-            // Use Eloquent model to retrieve a limited number of donors
-            $donors = BloodDonor::orderBy('full_name')->limit(10)->get();
+            // Use Eloquent model to retrieve all donors 
+            $donors = BloodDonor::orderBy('full_name')
+                                ->whereNotExists(function ($query) {
+                                    $query->select(DB::raw(1))
+                                        ->from('blood_requests')
+                                        ->whereRaw('blood_donor_users.email = blood_requests.donor_email');
+                                })
+                                ->get();
 
             // Convert the Eloquent collection to an array
             $resultArray = $donors->toArray();
@@ -396,14 +386,11 @@ class HospitalOfficer
     return $resultArray;
 }
 
-    public function submitRequest($requester_name,$requester_contact,$blood_type,$appointment_date,$staff_email,$donor_email): bool
+    public function submitRequest($appointment_date,$staff_email,$donor_email): bool
     {
         $request_date = now();
         $request_status = "pending";
         $bloodRequest = new BloodRequest();
-        $bloodRequest->setAttribute('requester_name',$requester_name);
-        $bloodRequest->setAttribute('requester_contact',$requester_contact);
-        $bloodRequest->setAttribute('blood_type',$blood_type);
         $bloodRequest->setAttribute('request_status',$request_status);
         $bloodRequest->setAttribute('request_date',$request_date);
         $bloodRequest->setAttribute('appointment_date',$appointment_date);
@@ -418,6 +405,73 @@ class HospitalOfficer
         return false;
     }
 
+    public function viewRequests($status): array
+    {
+        $resultArray = array();
 
+        try {
+            // Use Eloquent model to retrieve all Requests
+            $requests = BloodRequest::join('blood_donor_users', 'blood_requests.donor_email', '=', 'blood_donor_users.email')
+            ->where('blood_requests.staff_email', session('email'))
+            ->where('blood_requests.request_status', $status)
+            ->get(['blood_requests.*', 'blood_donor_users.*']);
+
+            // Convert the Eloquent collection to an array
+            $resultArray = $requests->toArray();
+        } catch (ModelNotFoundException $e) {
+            "There is some problem in connection: " . $e->getMessage();
+        }
+
+        return $resultArray;
+    }
+
+    public function viewFewRequests($status): array
+    {
+        $resultArray = array();
+
+        try {
+            // Use Eloquent model to retrieve a limited number of Requests
+            $requests = BloodRequest::join('blood_donor_users', 'blood_requests.donor_email', '=', 'blood_donor_users.email')
+            ->where('blood_requests.staff_email', session('email'))
+            ->where('blood_requests.request_status', $status)
+                                        ->limit(10)->get(['blood_requests.*', 'blood_donor_users.*']);
+
+            // Convert the Eloquent collection to an array
+            $resultArray = $requests->toArray();
+        } catch (ModelNotFoundException $e) {
+            "There is some problem in connection: " . $e->getMessage();
+        }
+
+        return $resultArray;
+    }
+
+    public function showRequest($request_id): array
+{
+
+    $resultArray = array();
+    
+    // Retrieve donor details based on donor email
+    $request = BloodRequest::where('request_id', $request_id)
+                                ->where('request_status','pending')
+                                ->first();
+
+        // Add donor details to the result array
+        $resultArray = $request->toArray();
+   
+
+    return $resultArray;
 }
 
+    public function cancelRequest($request_id,$status): bool
+    {
+        $request = BloodRequest::where('request_id', $request_id)
+                                ->where('request_status', $status)
+                                ->first();
+         if ($request) {
+            return $request->delete();
+        }
+                            
+        return false;
+}
+
+}

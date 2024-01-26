@@ -2,6 +2,9 @@
 
 namespace App\Models;
 use App\Models\BloodDonor;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class Donor 
@@ -20,9 +23,11 @@ class Donor
     protected string $status;
 
     // constructor for the class which is inherited by other classes,
-    public function __construct()
+    public function __construct($email = null)
     {
-       
+        if ($email !== null) {
+            $this->getDonorDetails($email);
+        }
     }
 
   
@@ -175,100 +180,173 @@ class Donor
                 "There is some problem in connection: " . $e->getMessage();
             }
         }
-
         return $success;
+
     }
 
-    public function verifyDonor($email, $password): bool
+    public function LoginDonor($email, $password): bool
     {
-        $success = false;
-
+        
         // Sanitize to avoid malicious script processing in the database.
         $email = $this->sanitizeString($email);
 
-        if ($email != null) {
-            try {
-                // Use Eloquent model to retrieve the donor based on the email
-                $user = BloodDonor::where('email', $email)->first();
+        // Use Eloquent model to retrieve the officer based on the email
+        $user = BloodDonor::where('email', $email)->first();
 
-                if ($user != null) {
-                    if ($user->status) {
-                        // Verify the password using password_verify
-                        if (password_verify($password, $user->password)) {
-                            $_SESSION['user'] = $user->donor_id;
-                            $_SESSION['username'] = $user->username;
-                            $_SESSION['userEmail'] = $user->email;
-                            $_SESSION['log'] = $user->email;
-                            $success = true;
-                        } else {
-                            $_SESSION['error'] = 'Incorrect Password';
-                        }
-                    } else {
-                        $_SESSION['error'] = 'Account not active.';
-                    }
+        if ($user !== null) {
+            if ($user->status) {
+                 // Attempt to authenticate using the 'staff' guard
+                if (Auth::guard('donors')->attempt(['email' => $email, 'password' => $password])) {
+                     // Authentication successful, store email in session
+                     Session::put('email', $email);
+                    return true;
                 } else {
-                    $_SESSION['error'] = 'Email not found';
+                    return false;
                 }
-            } catch (ModelNotFoundException $e) {
-                "There is some problem in connection: " . $e->getMessage();
+            } else {
+                return false;
             }
         } else {
-            $_SESSION['error'] = 'Input login credentials first';
+            return false;
         }
 
-        return $success;
     }
 
-    public function registerDonor($register, $name, $username,$gender, $email, $password, $confirmPassword, $address, $blood_type, $birthdate, $phone_number): bool
+    public function logoutDonor(): bool
+{
+    // Logout the user from the 'staff' guard
+    if(Auth::guard('donors')->logout()){
+        
+        return true;
+    }
+    return false;
+}
+
+    // Business logic to register staff using Eloquent
+    public function registerDonor($register, $name, $username, $email, $address, $phone, $blood_type,$birthdate, $password, $confirmPassword, $gender): bool
     {
-        $message = false;
 
         if (isset($register)) {
             if ($password != $confirmPassword) {
-                $_SESSION['error'] = 'Passwords did not match';
-                header('location: ../register.php');
+                session()->flash('error', 'Passwords did not match');
+                return false;
             } else {
-                // Use Eloquent model to check if the email already exists
-                $existingUser = BloodDonor::where('email', $email)->first();
+                // Use Eloquent model to check if the email is already taken
+                $existingUser = BloodDonor::where('email', $email)->count();
 
-                if ($existingUser) {
-                    $_SESSION['error'] = 'Email already taken';
-                    header('location: ../register.php');
+                if ($existingUser > 0) {
+                    session()->flash('error', 'Email already taken');
+                    return false;
                 } else {
-                    $now = date('Y-m-d');
-                    $password = password_hash($password, PASSWORD_DEFAULT);
-                    $code = 'active';
 
-                    // Use Eloquent model to insert the new donor
-                    $newDonor = new BloodDonor();
-                    $newDonor->email = $email;
-                    $newDonor->password = $password;
-                    $newDonor->full_name = $name;
-                    $newDonor->username = $username;
-                    $newDonor->status = $code;
-                    $newDonor->register_date = $now;
-                    $newDonor->birthdate = $birthdate;
-                    $newDonor->phone_number = $phone_number;
-                    $newDonor->address = $address;
-                    $newDonor->blood_type = $blood_type;
-                    $newDonor->gender = $gender; // Make sure to define $gender variable
+                  // Check if the username is already taken
+            $usernameExists = BloodDonor::where('username', $username)->exists();
 
-                    if ($newDonor->save()) {
-                        $message = true;
-                        $_SESSION['error'] = 'Registered Successfully!';
-                        header('location: ../register.php');
+            if ($usernameExists) {
+                session()->flash('error', 'Username already taken');
+                return false;
+            }
+                    $now = now();
+                    $code = 'Active';
+
+                    // Use Eloquent model to insert new staff member
+                    $newBloodDonor = new BloodDonor();
+                    $newBloodDonor->setAttribute('email', $email);
+                    $newBloodDonor->setAttribute('password', Hash::make($password));
+                    $newBloodDonor->setAttribute('full_name',$name);
+                    $newBloodDonor->setAttribute('username',$username);
+                    $newBloodDonor->setAttribute('status',$code);
+                    $newBloodDonor->setAttribute('register_date',$now);
+                    $newBloodDonor->setAttribute('gender',$gender);
+                    $newBloodDonor->setAttribute('address',$address);
+                    $newBloodDonor->setAttribute('blood_type',$blood_type);
+                    $newBloodDonor->setAttribute('birthdate',$birthdate);
+                    $newBloodDonor->setAttribute('phone_number',$phone);
+
+                    if ($newBloodDonor->save()) {
+                         // Log in the user after successful registration
+                          // Use Eloquent model to retrieve the officer based on the email
+                        $user = BloodDonor::where('email', $email)->first();
+
+                        if ($user !== null) {
+                            if ($user->status) {
+                                // Attempt to authenticate using the 'staff' guard
+                                if (Auth::guard('donors')->attempt(['email' => $email, 'password' => $password])) {
+                                    // Authentication successful, store email in session
+                                    Session::put('email', $email);
+                                    session()->flash('success', 'Registered successfully.');
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            } else {
+                                return false;
+                            }
+                        } else {
+                            return false;
+                        }
+                        
                     } else {
-                        $_SESSION['error'] = 'Failed to Register! Please try again.';
-                        header('location: ../register.php');
+                        session()->flash('error', 'Failed to Register! Please try again.');
+                        return false;
                     }
                 }
             }
         } else {
-            $_SESSION['error'] = 'Fill up signup form first';
-            header('location: ../register.php');
+            session()->flash('error', 'Fill up signup form first');
+            return false;
+        }
+    }
+
+
+    public function viewBloodRequests($status): array
+    {
+        $resultArray = array();
+
+        try {
+            $requests = BloodRequest::join('staff_members', 'blood_requests.staff_email', '=', 'staff_members.email')
+            ->join('hospitals', 'staff_members.hospital_id', '=', 'hospitals.hospital_id')
+            ->where('blood_requests.donor_email', session('email'))
+            ->where('blood_requests.request_status', $status)
+            ->get(['blood_requests.*', 'staff_members.*', 'hospitals.*']);
+        
+            // Convert the Eloquent collection to an array
+            $resultArray = $requests->toArray();
+        } catch (ModelNotFoundException $e) {
+            "There is some problem in connection: " . $e->getMessage();
         }
 
-        return $message;
+        return $resultArray;
     }
+
+
+    public function rejectRequest($request_id,$status): bool
+    {
+        $request = BloodRequest::where('request_id', $request_id)
+                                ->where('request_status', $status)
+                                ->first();
+         if ($request) {
+            return $request->delete();
+        }
+                            
+        return false;
+}
+
+public function acceptRequest($request_id): bool
+{
+    $request = BloodRequest::where('request_id', $request_id)
+        ->where('request_status', 'Pending')
+        ->first();
+
+    if ($request) {
+        // Update the status to 'Approved'
+        $request->update(['request_status' => 'Approved']);
+
+        return true;
+    }
+
+    return false;
+}
+
 
 }

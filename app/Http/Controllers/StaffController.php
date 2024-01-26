@@ -21,9 +21,8 @@ class StaffController extends Controller
         $staffMember = $this->getCurrentStaffMember(); // Implement a method to get the current staff member
         $username = $staffMember->getAttribute('email');
 
-        return view('request-donor', [
+        return view('officer.request-donor', [
             'username' => $username,
-            'fewDonors' => $staff->viewFewDonors(),
             'allDonors' => $staff->viewDonors(),
         ]);
     }
@@ -40,7 +39,7 @@ class StaffController extends Controller
 
     public function showRegisterForm()
     {
-        return view('register-staff');
+        return view('officer.register-staff');
     }
 
     public function register(Request $request)
@@ -87,7 +86,7 @@ class StaffController extends Controller
 
     public function showLoginForm()
     {
-        return view('login-staff');
+        return view('officer.login-staff');
     }
 
     public function login(Request $request)
@@ -130,7 +129,7 @@ class StaffController extends Controller
 
           $hospitalOfficer->getOfficerDetails($username); 
 
-        return view('request-donor-create', [
+        return view('officer.request-donor-create', [
             'username' => $username,
             'staffname' => $hospitalOfficer->getFullName(),
             'staffphone' => $hospitalOfficer->getPhoneNumber(),
@@ -142,37 +141,85 @@ class StaffController extends Controller
 
 public function submitRequest(Request $request): View
 {
-    $requesterName = $request->input('requester_name');
-    $requesterContact = $request->input('requester_contact');
-    $bloodType = $request->input('blood_type');
     $appointmentDate = $request->input('appointment_date');
     $staffEmail = $request->input('staff_email');
     $donorEmail = $request->input('donor_email');
 
     $staffRequest = new HospitalOfficer();
-    $sucess = $staffRequest->submitRequest($requesterName,$requesterContact,$bloodType,$appointmentDate,$staffEmail,$donorEmail);
+    $sucess = $staffRequest->submitRequest($appointmentDate,$staffEmail,$donorEmail);
 
     if($sucess){
         session()->flash('success_message', 'Your request has been sent.');
-        return view('request-donor-create', [
+        return view('officer.request-donor-create', [
             'username' => $staffEmail,
-            'staffname' => $requesterName,
-            'staffphone' => $requesterContact,
             'staffemail' => $staffEmail,
             'donorDetails' => $staffRequest->createRequest($donorEmail),
         ]);
     }
-    session()->flash('success_message', 'Your request has been sent.');
-    return view('request-donor-create', [
+    session()->flash('success_message', 'Your request has not been sent.');
+    return view('officer.request-donor-create', [
         'username' => $staffEmail,
-        'staffname' => $requesterName,
-        'staffphone' => $requesterContact,
         'staffemail' => $staffEmail,
         'donorDetails' => $staffRequest->createRequest($donorEmail),
 
     ]);
 }
 
+    public function viewRequests(): View
+    {
+        $staff = new HospitalOfficer();
+        $requests = $staff->viewRequests('Pending');
+        $request = $staff->viewFewRequests('Pending');
+        return view('officer.sent-requests', [
+            'allDonors' => $requests,
+            'fewDonors' => $request,
+        ]);
+    }
+
+    public function viewAcceptedRequests(): View
+    {
+        $staff = new HospitalOfficer();
+        $requests = $staff->viewRequests('Approved');
+        $request = $staff->viewFewRequests('Approved');
+        return view('officer.accept-requests', [
+            'allDonors' => $requests,
+            'fewDonors' => $request,
+        ]);
+    }
+
+    public function cancelRequest(Request $request): View
+    {
+        $request_id = $request->input('request_id');
+        $requests = new HospitalOfficer();
+        if($requests->cancelRequest($request_id,'Pending')){
+            session()->flash('success', 'Your request has been cancelled.');
+            return $this->viewRequests();
+        }
+        session()->flash('success', 'Your request has not been cancelled.');
+        return $this->viewRequests();
+    }
+
+    public function deleteRequest(Request $request): View
+    {
+        $request_id = $request->input('request_id');
+        $requests = new HospitalOfficer();
+        if($requests->cancelRequest($request_id,'Approved')){
+            session()->flash('success', 'Successful Appointment!.');
+            return $this->viewAcceptedRequests();
+        }
+        session()->flash('success', 'Appointment failed to submit! try Again..');
+        return $this->viewAcceptedRequests();
+    }
+
+    public function showAboutUs():View
+    {
+        return view('officer.about-us');
+    }
+
+    public function showContactUs():View
+    {
+        return view('officer.contact-us');
+    }
 
 
 }

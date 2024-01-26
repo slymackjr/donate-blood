@@ -41,18 +41,18 @@ class Hospital extends Model implements Authenticatable
     protected $fillable = [
         'hospital_name',
         'hospital_address',
-        'contact_number',
-        'email',
-        'registration_date',
+        'hospital_contact',
+        'hospital_email',
+        'hospital_registration_date',
     ];
 
     protected $casts = [
         'hospital_id' => 'integer',
         'hospital_name' => 'string',
         'hospital_address' => 'string',
-        'contact_number' => 'string',
-        'email' => 'string',
-        'registration_date' => 'timestamp',
+        'hospital_contact' => 'string',
+        'hospital_email' => 'string',
+        'hospital_registration_date' => 'timestamp',
     ];
      
 public $timestamps = false;

@@ -46,7 +46,7 @@ return [
             'provider' => 'staff_members',
         ],
     
-        'customers' => [
+        'donors' => [
             'driver' => 'session',
             'provider' => 'blood-donor-users',
         ],

@@ -25,29 +25,29 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active ps-4 pe-4 text-white" aria-current="page" href="{{route('index.home')}}"><i class="fa-solid fa-house p-2"></i>Home</a>
+                <a class="nav-link active ps-4 pe-4 text-white" aria-current="page" href="{{route('staff.requestDonor')}}"><i class="fa-solid fa-house p-2"></i>Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link  ps-4 pe-4 text-white" href="{{route('staff.requestDonor')}}"><i class="fa-solid fa-list p-2"></i>Requests</a>
+                <a class="nav-link  ps-4 pe-4 text-white" href="{{route('staff.viewRequests')}}"><i class="fa-solid fa-list p-2"></i>Sent Requests</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link  ps-4 pe-4 text-white" href="{{route('staff.requestDonor')}}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa-solid fa-calendar-check p-2"></i>  Appointments
+                <a class="nav-link  ps-4 pe-4 text-white" href="{{route('staff.viewAcceptedRequests')}}">
+                <i class="fa-solid fa-calendar-check p-2"></i>  Accepted Requests
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link  ps-4 pe-4 text-white" href="{{route('staff.requestDonor')}}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link  ps-4 pe-4 text-white" href="{{route('staff.aboutUs')}}">
                 <i class="fa-solid fa-info p-2"></i>  About Us
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link  ps-4 pe-4 text-white" href="{{route('staff.requestDonor')}}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link  ps-4 pe-4 text-white" href="{{route('staff.contactUs')}}">
                 <i class="fa-solid fa-phone p-2"></i>  Contact Us
                 </a>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
-                data-mdb-toggle="dropdown" aria-expanded="false"> <i class="fas fa-user mx-1"></i>{{$username}}</a>
+                data-mdb-toggle="dropdown" aria-expanded="false"> <i class="fas fa-user mx-1"></i>{{session('email')}}</a>
                 <!-- Dropdown menu -->
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <li>
@@ -84,44 +84,46 @@
         });
     </script>
     @endif
-
-            <div class="container-md d-flex justify-content-center align-items-center">
-                <div class="card border-white rounded-4 trasparent">
-                    <div class="card-body">
-                      <h5 class="card-title text-center">DONOR</h5>
-                      <p class="card-text"><Span>DONOR ID: </Span>{{$donorDetails['donor_id']}}</p>
-                      <p class="card-text"><Span>DONOR USERNAME: </Span>{{$donorDetails['username']}}</p>
-                      <p class="card-text"><Span>DONOR FULL NAME: </Span>{{$donorDetails['full_name']}}</p>
-                      <p class="card-text"><Span>DONOR GENDER: </Span>{{$donorDetails['gender']}}</p>
-                      <p class="card-text"><Span>DONOR BLOOD TYPE: </Span>{{$donorDetails['blood_type']}}</p>
-                      <p class="card-text"><Span>DONOR ADDRESS: </Span>{{$donorDetails['address']}}</p>
-                      <p class="card-text"><Span>DONOR PHONE NUMBER: </Span>{{$donorDetails['phone_number']}}</p>
-                      <p class="card-text"><Span>DONOR BIRTHDATE: </Span>{{$donorDetails['birthdate']}}</p>
-                      <p class="card-text"><Span>DONOR EMAIL: </Span>{{$donorDetails['email']}}</p>
-                      <p class="card-text"><Span>DONOR STATUS: </Span>{{$donorDetails['status']}}</p>
-                      <p class="card-text"><Span>DONOR REGISTER DATE: </Span>{{$donorDetails['register_date']}}</p>
-                      <p class="card-text text-center">
-                        <form action="{{ route('staff.submitRequest') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="requester_name" value="{{ $staffname }}">
-                        <input type="hidden" name="requester_contact" value="{{ $staffphone }}">
-                        <input type="hidden" name="blood_type" value="{{ $donorDetails['blood_type'] }}">
-                        <input type="hidden" name="staff_email" value="{{ $staffemail }}">
-                        <input type="hidden" name="donor_email" value="{{ $donorDetails['email'] }}">
-                        <div class="mb-3">
-                            <label for="appointment_date" class="form-label">Appointment Date</label>
-                            <div class="input-group date" id="appointment_date_picker" data-target-input="nearest">
-                                <input type="datetime-local" name="appointment_date" id="appointment_date" class="form-control"/>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit Request</button>
-                        </form>
-                    </p>
-                    </div>
-                  </div>
+            
+            <div id="carouselExample" class="carousel">
+              <div class="carousel-inner">
+              </div>
             </div>
 
-      
+            <div class="container-md d-flex justify-content-center align-items-center">
+              <div class="card border-primary rounded-4 shadow-lg" style="max-width: 500px;">
+                  <div class="card-body">
+                      <h5 class="card-title text-center text-uppercase mb-4 text-primary">🌟 Donor Information 🌟</h5>
+                      <ul class="list-group list-group-flush">
+                          <li class="list-group-item"><strong>Donor ID:</strong> {{$donorDetails['donor_id']}}</li>
+                          <li class="list-group-item"><strong>Donor Username:</strong> {{$donorDetails['username']}}</li>
+                          <li class="list-group-item"><strong>Donor Full Name:</strong> {{$donorDetails['full_name']}}</li>
+                          <li class="list-group-item"><strong>Donor Gender:</strong> {{$donorDetails['gender']}}</li>
+                          <li class="list-group-item"><strong>Donor Blood Type:</strong> {{$donorDetails['blood_type']}}</li>
+                          <li class="list-group-item"><strong>Donor Address:</strong> {{$donorDetails['address']}}</li>
+                          <li class="list-group-item"><strong>Donor Phone Number:</strong> {{$donorDetails['phone_number']}}</li>
+                          <li class="list-group-item"><strong>Donor Birthdate:</strong> {{$donorDetails['birthdate']}}</li>
+                          <li class="list-group-item"><strong>Donor Email:</strong> {{$donorDetails['email']}}</li>
+                          <li class="list-group-item"><strong>Donor Status:</strong> {{$donorDetails['status']}}</li>
+                          <li class="list-group-item"><strong>Register Date:</strong> {{$donorDetails['register_date']}}</li>
+                      </ul>
+                      <form action="{{ route('staff.submitRequest') }}" method="POST">
+                          @csrf
+                          <input type="hidden" name="staff_email" value="{{ $staffemail }}">
+                          <input type="hidden" name="donor_email" value="{{ $donorDetails['email'] }}">
+                          <div class="mb-3">
+                              <label for="appointment_date" class="form-label">Appointment Date</label>
+                              <div class="input-group date" id="appointment_date_picker" data-target-input="nearest">
+                                  <input type="datetime-local" name="appointment_date" id="appointment_date" class="form-control"/>
+                              </div>
+                          </div>
+                          <div class="d-grid gap-2">
+                              <button type="submit" class="btn btn-primary">🚀 Submit Request 🚀</button>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+            </div>      
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>

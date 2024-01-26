@@ -35,25 +35,18 @@ class BloodRequest extends Model implements Authenticatable
     protected $keyType = 'integer';
 
     protected $fillable = [
-        'requester_name',
-        'requester_contact',
-        'blood_type',
-        'units_requested',
-        'request_status',
-        'request_date',
         'staff_email',
         'donor_email',
+        'request_status',
+        'request_date', 
     ];
 
     protected $casts = [
-        'requester_name' => 'string',
-        'requester_contact' => 'string',
-        'blood_type' => 'string',
-        'units_requested' => 'integer',
-        'request_status' => 'string',
-        'request_date' => 'string',
         'staff_email' => 'string',
         'donor_email' => 'string',
+        'request_status' => 'string',
+        'request_date' => 'string',
+        
     ];
      
 public $timestamps = false;
