@@ -161,3 +161,32 @@ body {
     /* flip card CSS ends here*/
   
     /*register page */
+
+    /* google fonts start here */
+    /* Regular Font */
+    @font-face {
+      font-family: 'Roboto-Regular';
+      src: url('/fonts/Roboto/Roboto-Regular.ttf') format('truetype'); /* Path to your regular font file */
+      font-weight: 400; /* Regular font weight */
+      font-style: normal; /* Normal font style */
+    }
+
+    /* Medium Font */
+    @font-face {
+      font-family: 'Roboto-Medium';
+      src: url('/fonts/Roboto/Roboto-Medium.ttf') format('truetype'); /* Path to your medium font file */
+      font-weight: 500; /* Medium font weight */
+      font-style: normal; /* Normal font style */
+    }
+
+    /* Regular Font Class */
+    .roboto-regular {
+      font-family: 'Roboto-Regular', sans-serif; /* Use regular font */
+    }
+
+    /* Medium Font Class */
+    .roboto-medium {
+      font-family: 'Roboto-Medium', sans-serif; /* Use medium font */
+    }
+
+    /* google fonts end here */
