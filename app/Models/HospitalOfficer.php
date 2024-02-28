@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class HospitalOfficer
 {
@@ -29,9 +30,11 @@ class HospitalOfficer
   
 
     // constructor for the class which is inherited by other classes,
-    public function __construct()
+    public function __construct($email = null)
     {
-        
+        if ($email !== null) {
+            $this->getOfficerDetails($email);
+        }
     }
 
     // Getter and Setter for staff_id
@@ -194,7 +197,6 @@ class HospitalOfficer
         $user = null;
        
             if ($email != null){
-                try{
                     // Use Eloquent model to retrieve the officer based on the email
                 $user = StaffMember::where('email', $email)->first();
                 
@@ -215,10 +217,6 @@ class HospitalOfficer
                 $this->job_title = $user->job_title;
 
                 $success = true;
-                }
-                }
-                catch(ModelNotFoundException $e){
-                    "There is some problem in connection: " . $e->getMessage();
                 }
             }
         
@@ -348,11 +346,8 @@ class HospitalOfficer
     }
 
 
-    public function viewDonors(): array
+    public function viewDonors(): LengthAwarePaginator
     {
-        $resultArray = array();
-
-        try {
             // Use Eloquent model to retrieve all donors 
             $donors = BloodDonor::orderBy('full_name')
                                 ->whereNotExists(function ($query) {
@@ -360,15 +355,8 @@ class HospitalOfficer
                                         ->from('blood_requests')
                                         ->whereRaw('blood_donor_users.email = blood_requests.donor_email');
                                 })
-                                ->get();
-
-            // Convert the Eloquent collection to an array
-            $resultArray = $donors->toArray();
-        } catch (ModelNotFoundException $e) {
-            "There is some problem in connection: " . $e->getMessage();
-        }
-
-        return $resultArray;
+                                ->paginate(8);
+        return $donors;
     }
 
     public function createRequest($donorEmail): array
@@ -405,31 +393,19 @@ class HospitalOfficer
         return false;
     }
 
-    public function viewRequests($status): array
+    public function viewRequests($status): LengthAwarePaginator
     {
-        $resultArray = array();
-
-        try {
             // Use Eloquent model to retrieve all Requests
             $requests = BloodRequest::join('blood_donor_users', 'blood_requests.donor_email', '=', 'blood_donor_users.email')
             ->where('blood_requests.staff_email', session('email'))
             ->where('blood_requests.request_status', $status)
-            ->get(['blood_requests.*', 'blood_donor_users.*']);
-
-            // Convert the Eloquent collection to an array
-            $resultArray = $requests->toArray();
-        } catch (ModelNotFoundException $e) {
-            "There is some problem in connection: " . $e->getMessage();
-        }
-
-        return $resultArray;
+            ->paginate(8,['blood_requests.*', 'blood_donor_users.*']);
+        return $requests;
     }
 
     public function viewFewRequests($status): array
     {
         $resultArray = array();
-
-        try {
             // Use Eloquent model to retrieve a limited number of Requests
             $requests = BloodRequest::join('blood_donor_users', 'blood_requests.donor_email', '=', 'blood_donor_users.email')
             ->where('blood_requests.staff_email', session('email'))
@@ -438,10 +414,6 @@ class HospitalOfficer
 
             // Convert the Eloquent collection to an array
             $resultArray = $requests->toArray();
-        } catch (ModelNotFoundException $e) {
-            "There is some problem in connection: " . $e->getMessage();
-        }
-
         return $resultArray;
     }
 

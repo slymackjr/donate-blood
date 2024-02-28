@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('blood_requests', function (Blueprint $table) {
             $table->id('request_id');
-            $table->string('staff_email')->unique();
-            $table->string('donor_email')->unique();
+            $table->string('staff_email');
+            $table->string('donor_email');
             $table->enum('request_status', ['Pending', 'Approved', 'Rejected'])->default('Pending');
             $table->timestamp('request_date')->default(now());
 

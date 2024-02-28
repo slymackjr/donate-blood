@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('blood_donor_users', function (Blueprint $table) {
+            $table->id('donor_id');
             $table->string('username')->unique();
             $table->string('full_name');
             $table->enum('gender', ['Male', 'Female']);
@@ -19,10 +20,13 @@ return new class extends Migration
             $table->string('address');
             $table->string('phone_number');
             $table->string('birthdate');
-            $table->string('email')->primary();
+            $table->string('email')->unique();
             $table->string('password');
             $table->enum('status', ['Active', 'Inactive'])->default('Inactive');
             $table->timestamp('register_date')->useCurrent();
+            
+              // Index email column
+              $table->index('email');
         });
     }
 

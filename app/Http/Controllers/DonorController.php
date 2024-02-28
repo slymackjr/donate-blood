@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Donor;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
-use App\Models\StaffMember;
 use Illuminate\Http\Request;
-use App\Models\HospitalOfficer;
-use Illuminate\Support\Facades\Session;
 
 class DonorController extends Controller
 {
-    public function index(){
+    public function index(): View
+    {
         return view('home');
     }
     public function viewRequests(): View
@@ -26,12 +25,12 @@ class DonorController extends Controller
         ]);
     }
 
-    public function showRegisterForm()
+    public function showRegisterForm(): View
     {
         return view('donor.register-donor');
     }
 
-    public function register(Request $request)
+    public function register(Request $request): RedirectResponse
     {
         $name = $request->input('name');
         $username = $request->input('username');
@@ -69,12 +68,12 @@ class DonorController extends Controller
         }
     }
 
-    public function showLoginForm()
+    public function showLoginForm(): View
     {
         return view('donor.login-donor');
     }
 
-    public function login(Request $request)
+    public function login(Request $request): RedirectResponse
     {
         $email = $request->input('email');
         $password = $request->input('password');
@@ -93,7 +92,7 @@ class DonorController extends Controller
         }
     }
 
-    public function logout()
+    public function logout(): RedirectResponse
 {
     $staff = new Donor();
     if ($staff->logoutDonor()) {
@@ -154,6 +153,14 @@ public function viewAppointments(): View
     return view('donor.appointments', [
         'username' => $username,
         'allDonors' => $requests,
+    ]);
+}
+
+public function showProfile(): View
+{
+    $donor = new Donor(session('email'));
+    return view('donor.profile-donor',[
+        'donor' => $donor
     ]);
 }
 

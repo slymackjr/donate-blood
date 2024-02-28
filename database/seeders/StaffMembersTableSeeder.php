@@ -16,7 +16,6 @@ class StaffMembersTableSeeder extends Seeder
     {
         DB::table('staff_members')->insert([
             [
-                'staff_id' => 3,
                 'username' => 'admin',
                 'full_name' => 'admin',
                 'gender' => 'Male',

@@ -5,7 +5,6 @@ use App\Models\BloodDonor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class Donor 
 {
@@ -157,7 +156,6 @@ class Donor
         $user = null;
 
         if ($email != null) {
-            try {
                 // Use Eloquent model to retrieve the donor based on the email
                 $user = BloodDonor::where('email', $email)->first();
 
@@ -171,14 +169,12 @@ class Donor
                     $this->blood_type = $user->blood_type;
                     $this->address = $user->address;
                     $this->phone_number = $user->phone_number;
+                    $this->birthdate = $user->birthdate;
                     $this->status = $user->status;
                     $this->register_date = $user->register_date;
 
                     $success = true;
                 }
-            } catch (ModelNotFoundException $e) {
-                "There is some problem in connection: " . $e->getMessage();
-            }
         }
         return $success;
 
@@ -302,8 +298,6 @@ class Donor
     public function viewBloodRequests($status): array
     {
         $resultArray = array();
-
-        try {
             $requests = BloodRequest::join('staff_members', 'blood_requests.staff_email', '=', 'staff_members.email')
             ->join('hospitals', 'staff_members.hospital_id', '=', 'hospitals.hospital_id')
             ->where('blood_requests.donor_email', session('email'))
@@ -312,10 +306,6 @@ class Donor
         
             // Convert the Eloquent collection to an array
             $resultArray = $requests->toArray();
-        } catch (ModelNotFoundException $e) {
-            "There is some problem in connection: " . $e->getMessage();
-        }
-
         return $resultArray;
     }
 

@@ -47,7 +47,7 @@
                 <!-- Dropdown menu -->
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <li>
-                        <a class="dropdown-item" href="#">My account</a>
+                        <a class="dropdown-item" href="{{route('staff.profile')}}">My account</a>
                     </li>
 
                     <li>
@@ -85,41 +85,266 @@
               <div class="carousel-inner">
               </div>
             </div>
-
-            <div class="container-md d-flex justify-content-center align-items-center">
-              <div class="card border-primary rounded-4 shadow-lg" style="max-width: 500px;">
-                  <div class="card-body">
-                      <h5 class="card-title text-center text-uppercase mb-4 text-primary">🌟 Donor Information 🌟</h5>
-                      <ul class="list-group list-group-flush">
-                          <li class="list-group-item"><strong>Donor ID:</strong> {{$donorDetails['donor_id']}}</li>
-                          <li class="list-group-item"><strong>Donor Username:</strong> {{$donorDetails['username']}}</li>
-                          <li class="list-group-item"><strong>Donor Full Name:</strong> {{$donorDetails['full_name']}}</li>
-                          <li class="list-group-item"><strong>Donor Gender:</strong> {{$donorDetails['gender']}}</li>
-                          <li class="list-group-item"><strong>Donor Blood Type:</strong> {{$donorDetails['blood_type']}}</li>
-                          <li class="list-group-item"><strong>Donor Address:</strong> {{$donorDetails['address']}}</li>
-                          <li class="list-group-item"><strong>Donor Phone Number:</strong> {{$donorDetails['phone_number']}}</li>
-                          <li class="list-group-item"><strong>Donor Birthdate:</strong> {{$donorDetails['birthdate']}}</li>
-                          <li class="list-group-item"><strong>Donor Email:</strong> {{$donorDetails['email']}}</li>
-                          <li class="list-group-item"><strong>Donor Status:</strong> {{$donorDetails['status']}}</li>
-                          <li class="list-group-item"><strong>Register Date:</strong> {{$donorDetails['register_date']}}</li>
-                      </ul>
-                      <form action="{{ route('staff.submitRequest') }}" method="POST">
-                          @csrf
-                          <input type="hidden" name="staff_email" value="{{ $staffemail }}">
-                          <input type="hidden" name="donor_email" value="{{ $donorDetails['email'] }}">
-                          <div class="mb-3">
-                              <label for="appointment_date" class="form-label">Appointment Date</label>
-                              <div class="input-group date" id="appointment_date_picker" data-target-input="nearest">
-                                  <input type="datetime-local" name="appointment_date" id="appointment_date" class="form-control"/>
-                              </div>
-                          </div>
-                          <div class="d-grid gap-2">
-                              <button type="submit" class="btn btn-primary">🚀 Submit Request 🚀</button>
-                          </div>
-                      </form>
+            <section style="background-color: #eee;" class="container mb-4">
+              <div class="container py-5">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <div class="card mb-4">
+                      <div class="card-body text-center">
+                        <img src="{{asset('img/splash1.jpg')}}" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                        <h5 class="my-3"></h5>
+                        <p class="text-muted mb-1 h3 fw-bolder">Donor Information</p>
+                        <p class="text-muted mb-4 fw-bolder h5">{{$donorDetails['full_name']}}</p>
+                        <div class="d-flex justify-content-center mb-2">
+                          <button type="button" class="btn btn-primary">Active</button>
+                          <button type="button" class="btn btn-outline-primary ms-1">Deactivate</button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
+                  <div class="col-lg-8">
+                    <div class="card mb-4">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <p class="mb-0">Full Name</p>
+                          </div>
+                          <div class="col-sm-9">
+                            <p class="text-muted mb-0">{{$donorDetails['full_name']}}</p>
+                          </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <p class="mb-0">Email</p>
+                          </div>
+                          <div class="col-sm-9">
+                            <p class="text-muted mb-0">{{$donorDetails['email']}}</p>
+                          </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <p class="mb-0">Phone</p>
+                          </div>
+                          <div class="col-sm-9">
+                            <p class="text-muted mb-0">{{$donorDetails['phone_number']}}</p>
+                          </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <p class="mb-0">Mobile</p>
+                          </div>
+                          <div class="col-sm-9">
+                            <p class="text-muted mb-0">{{$donorDetails['phone_number']}}</p>
+                          </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <p class="mb-0">Address</p>
+                          </div>
+                          <div class="col-sm-9">
+                            <p class="text-muted mb-0">{{$donorDetails['address']}}</p>
+                          </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <p class="mb-0">Gender</p>
+                          </div>
+                          <div class="col-sm-9">
+                            <p class="text-muted mb-0">{{$donorDetails['gender']}}</p>
+                          </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <p class="mb-0">BirthDate</p>
+                          </div>
+                          <div class="col-sm-9">
+                            <p class="text-muted mb-0">{{$donorDetails['birthdate']}}</p>
+                          </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <p class="mb-0">Status</p>
+                          </div>
+                          <div class="col-sm-9">
+                            <p class="text-muted mb-0">{{$donorDetails['status']}}</p>
+                          </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <p class="mb-0">Register Date</p>
+                          </div>
+                          <div class="col-sm-9">
+                            <p class="text-muted mb-0">{{$donorDetails['register_date']}}</p>
+                          </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <p class="mb-0">Blood Type</p>
+                          </div>
+                          <div class="col-sm-9">
+                            <p class="text-muted mb-0">{{$donorDetails['blood_type']}}</p>
+                          </div>
+                        </div>
+                        <hr>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="card mb-4 mb-md-0">
+                          <div class="card-body">
+                            <form action="{{ route('staff.submitRequest') }}" method="POST">
+                              @csrf
+                              <input type="hidden" name="staff_email" value="{{ $staffemail }}">
+                              <input type="hidden" name="donor_email" value="{{ $donorDetails['email'] }}">
+                              <div class="mb-3">
+                                  <label for="appointment_date" class="form-label">Appointment Date</label>
+                                  <div class="input-group date" id="appointment_date_picker" data-target-input="nearest">
+                                      <input type="datetime-local" name="appointment_date" id="appointment_date" class="form-control"/>
+                                  </div>
+                              </div>
+                              <div class="d-grid gap-2">
+                                  <button type="submit" class="btn btn-primary">Submit Request</button>
+                              </div>
+                          </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>      
+            </section>
+            <!-- Footer -->
+            <footer class="text-center text-lg-start bg-body-tertiary text-muted">
+              <!-- Section: Social media -->
+              <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+                <!-- Left -->
+                <div class="me-5 d-none d-lg-block">
+                  <span>Get connected with us on social networks:</span>
+                </div>
+                <!-- Left -->
+
+                <!-- Right -->
+                <div>
+                  <a href="" class="me-4">
+                    <i class="fab fa-facebook-f"></i>
+                  </a>
+                  <a href="" class="me-4">
+                    <i class="fab fa-twitter"></i>
+                  </a>
+                  <a href="" class="me-4">
+                    <i class="fab fa-google"></i>
+                  </a>
+                  <a href="" class="me-4">
+                    <i class="fab fa-instagram"></i>
+                  </a>
+                  <a href="" class="me-4">
+                    <i class="fab fa-linkedin"></i>
+                  </a>
+                  <a href="" class="me-4">
+                    <i class="fab fa-github"></i>
+                  </a>
+                </div>
+                <!-- Right -->
+              </section>
+              <!-- Section: Social media -->
+
+              <!-- Section: Links  -->
+              <section class="">
+                <div class="container text-center text-md-start mt-5">
+                  <!-- Grid row -->
+                  <div class="row mt-3">
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                      <!-- Content -->
+                      <h6 class="text-uppercase fw-bold mb-4">
+                        <i class="fas fa-gem me-3"></i>JERRYCODE
+                      </h6>
+                      <p>
+                        We are totally committed to bring your image of the application or 
+                        software in your mind to life, with direct collaboration and front feedback from you. We make it happen for you.
+                      </p>
+                    </div>
+                    <!-- Grid column -->
+
+                    <!-- Grid column -->
+                    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                      <!-- Links -->
+                      <h6 class="text-uppercase fw-bold mb-4">
+                        Products
+                      </h6>
+                      <p>
+                        <a href="#!" class="text-reset">Spring Boot</a>
+                      </p>
+                      <p>
+                        <a href="#!" class="text-reset">React</a>
+                      </p>
+                      <p>
+                        <a href="#!" class="text-reset">Photoshop</a>
+                      </p>
+                      <p>
+                        <a href="#!" class="text-reset">Laravel</a>
+                      </p>
+                    </div>
+                    <!-- Grid column -->
+
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                      <!-- Links -->
+                      <h6 class="text-uppercase fw-bold mb-4">
+                        Useful links
+                      </h6>
+                      <p>
+                        <a href="#!" class="text-reset">Pricing</a>
+                      </p>
+                      <p>
+                        <a href="#!" class="text-reset">Settings</a>
+                      </p>
+                      <p>
+                        <a href="#!" class="text-reset">Orders</a>
+                      </p>
+                      <p>
+                        <a href="#!" class="text-reset">Help</a>
+                      </p>
+                    </div>
+                    <!-- Grid column -->
+
+                    <!-- Grid column -->
+                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                      <!-- Links -->
+                      <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+                      <p><i class="fas fa-home me-3"></i> Dar es Salaam, Posta - IFM</p>
+                      <p>
+                        <i class="fas fa-envelope me-3"></i>
+                        info@example.com
+                      </p>
+                      <p><i class="fas fa-phone me-3"></i> + 01 234 567 88</p>
+                      <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p>
+                    </div>
+                    <!-- Grid column -->
+                  </div>
+                  <!-- Grid row -->
+                </div>
+              </section>
+              <!-- Section: Links  -->
+
+              <!-- Copyright -->
+              <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+                © 2024 Copyright:
+                <a class="fw-bold" href="#">JERRYCODE</a>
+              </div>
+              <!-- Copyright -->
+            </footer>
+            <!-- Footer -->      
             <script src="{{ asset('node_modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
             <script src="{{ asset('node_modules/jquery/dist/jquery.min.js') }}"></script>
             <script src="{{ asset('node_modules/@popperjs/core/dist/umd/popper.min.js') }}"></script>

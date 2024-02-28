@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Log;
 use Illuminate\View\View;
 use App\Models\StaffMember;
 use Illuminate\Http\Request;
 use App\Models\HospitalOfficer;
-use Illuminate\Validation\Rule;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Session;
 
 class StaffController extends Controller
 {
-    public function index(){
+    public function index(): View
+    {
         return view('home');
     }
     public function RequestDonor(): View
@@ -37,15 +37,15 @@ class StaffController extends Controller
         return StaffMember::where('email', $email)->firstOrFail();
     }
 
-    public function showRegisterForm()
+    public function showRegisterForm(): View
     {
         return view('officer.register-staff');
     }
 
-    public function register(Request $request)
+    public function register(Request $request): RedirectResponse
     {
      
-        $formFields = $request->validate(StaffMember::$rules);
+        $request->validate(StaffMember::$rules);
         $name = $request->input('name');
         $username = $request->input('username');
         $email = $request->input('email');
@@ -84,12 +84,12 @@ class StaffController extends Controller
         }
     }
 
-    public function showLoginForm()
+    public function showLoginForm(): View
     {
         return view('officer.login-staff');
     }
 
-    public function login(Request $request)
+    public function login(Request $request): RedirectResponse
     {
         $email = $request->input('email');
         $password = $request->input('password');
@@ -108,7 +108,7 @@ class StaffController extends Controller
         }
     }
 
-    public function logout()
+    public function logout(): RedirectResponse
 {
     $staff = new HospitalOfficer();
     if ($staff->logoutStaff()) {
@@ -169,10 +169,8 @@ public function submitRequest(Request $request): View
     {
         $staff = new HospitalOfficer();
         $requests = $staff->viewRequests('Pending');
-        $request = $staff->viewFewRequests('Pending');
         return view('officer.sent-requests', [
             'allDonors' => $requests,
-            'fewDonors' => $request,
         ]);
     }
 
@@ -180,10 +178,8 @@ public function submitRequest(Request $request): View
     {
         $staff = new HospitalOfficer();
         $requests = $staff->viewRequests('Approved');
-        $request = $staff->viewFewRequests('Approved');
         return view('officer.accept-requests', [
             'allDonors' => $requests,
-            'fewDonors' => $request,
         ]);
     }
 
@@ -211,15 +207,27 @@ public function submitRequest(Request $request): View
         return $this->viewAcceptedRequests();
     }
 
-    public function showAboutUs():View
+    public function showAboutUs(): View
     {
         return view('officer.about-us');
     }
 
-    public function showContactUs():View
+    public function showContactUs(): View
     {
         return view('officer.contact-us');
     }
 
+    public function showUsers(): View
+    {
+        return view('officer.users');
+    }
+
+    public function showProfile(): View
+    {
+        $staff = new HospitalOfficer(session('email'));
+        return view('officer.profile-staff', [
+            'staff' => $staff,
+        ]);
+    }
 
 }

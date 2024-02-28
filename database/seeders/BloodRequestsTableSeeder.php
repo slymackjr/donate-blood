@@ -17,7 +17,7 @@ class BloodRequestsTableSeeder extends Seeder
             [                
                 'request_status' => 'Pending',
                 'request_date' => '2023-12-03 08:14:03',
-                'staff_email' => 'staff@example.com',
+                'staff_email' => 'admin@admin.com',
                 'donor_email' => 'user1@example.com',
             ],
             [                

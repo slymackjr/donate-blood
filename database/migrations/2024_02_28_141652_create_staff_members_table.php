@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('staff_members', function (Blueprint $table) {
+            $table->id('staff_id');
             $table->string('username')->unique();
             $table->string('full_name');
             $table->enum('gender', ['Male', 'Female']);
@@ -19,14 +20,17 @@ return new class extends Migration
             $table->string('department');
             $table->string('address');
             $table->string('phone_number');
-            $table->string('email')->primary();
+            $table->string('email')->unique();
             $table->string('password');
             $table->enum('status', ['Active', 'Inactive'])->default('Inactive');
             $table->timestamp('register_date')->default(now());
-            $table->string('hospital_id');
+            $table->bigInteger('hospital_id')->unsigned(); // Change to unsigned big integer
            
              // Foreign keys
              $table->foreign('hospital_id')->references('hospital_id')->on('hospitals');
+
+              // Index email column
+            $table->index('email');
         });
     }
 

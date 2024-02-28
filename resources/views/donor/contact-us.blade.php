@@ -4,13 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Blood Donation</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{{ asset('node_modules/bootstrap/dist/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('node_modules/@fortawesome/fontawesome-free/css/all.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('node_modules/bootstrap-icons/font/bootstrap-icons.min.css') }}">
   </head>
   <body>
       <div class="text-center p-3 container-md ">
@@ -61,113 +58,10 @@
           </div>
         </div>
       </nav>
-{{-- 
-       <div class="container">
-        <div class="row">
-            <!--Section: Contact v.2-->
-            <section class="mb-4">
-
-                <!--Section heading-->
-                <h2 class="h1-responsive font-weight-bold text-center my-4">Contact us</h2>
-                <!--Section description-->
-                <p class="text-center w-responsive mx-auto mb-5">Do you have any questions? Please do not hesitate to contact us directly. Our team will come back to you within
-                    a matter of hours to help you.</p>
-
-                <div class="row">
-
-                    <!--Grid column-->
-                    <div class="col-md-9 mb-md-0 mb-5">
-                        <form id="contact-form" name="contact-form" action="mail.php" method="POST">
-
-                            <!--Grid row-->
-                            <div class="row">
-
-                                <!--Grid column-->
-                                <div class="col-md-6">
-                                    <div class="md-form mb-0">
-                                        <input type="text" id="name" name="name" class="form-control">
-                                        <label for="name" class="">Your name</label>
-                                    </div>
-                                </div>
-                                <!--Grid column-->
-
-                                <!--Grid column-->
-                                <div class="col-md-6">
-                                    <div class="md-form mb-0">
-                                        <input type="text" id="email" name="email" class="form-control">
-                                        <label for="email" class="">Your email</label>
-                                    </div>
-                                </div>
-                                <!--Grid column-->
-
-                            </div>
-                            <!--Grid row-->
-
-                            <!--Grid row-->
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="md-form mb-0">
-                                        <input type="text" id="subject" name="subject" class="form-control">
-                                        <label for="subject" class="">Subject</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--Grid row-->
-
-                            <!--Grid row-->
-                            <div class="row">
-
-                                <!--Grid column-->
-                                <div class="col-md-12">
-
-                                    <div class="md-form">
-                                        <textarea type="text" id="message" name="message" rows="2" class="form-control md-textarea"></textarea>
-                                        <label for="message">Your message</label>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <!--Grid row-->
-
-                        </form>
-
-                        <div class="text-center text-md-left">
-                            <a class="btn btn-primary" onclick="document.getElementById('contact-form').submit();">Send</a>
-                        </div>
-                        <div class="status"></div>
-                    </div>
-                    <!--Grid column-->
-
-                    <!--Grid column-->
-                    <div class="col-md-3 text-center">
-                        <ul class="list-unstyled mb-0">
-                            <li><i class="fas fa-map-marker-alt fa-2x"></i>
-                                <p>San Francisco, CA 94126, USA</p>
-                            </li>
-
-                            <li><i class="fas fa-phone mt-4 fa-2x"></i>
-                                <p>+ 01 234 567 89</p>
-                            </li>
-
-                            <li><i class="fas fa-envelope mt-4 fa-2x"></i>
-                                <p>contact@mdbootstrap.com</p>
-                            </li>
-                        </ul>
-                    </div>
-                    <!--Grid column-->
-
-                </div>
-
-            </section>
-            <!--Section: Contact v.2-->
-        </div>
-       </div>     --}}  
-       
        <div id="carouselExample" class="carousel">
         <div class="carousel-inner">
         </div>
       </div>
-
        <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -231,16 +125,132 @@
             </div>
         </div>
     </div>
-    
-    
-    
-    
-    
-     
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="{{ asset('js/custom.js') }}"></script>    
+    <!-- Footer -->
+    <footer class="text-center text-lg-start bg-body-tertiary text-muted">
+        <!-- Section: Social media -->
+        <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+          <!-- Left -->
+          <div class="me-5 d-none d-lg-block">
+            <span>Get connected with us on social networks:</span>
+          </div>
+          <!-- Left -->
+
+          <!-- Right -->
+          <div>
+            <a href="" class="me-4">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="" class="me-4">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="" class="me-4">
+              <i class="fab fa-google"></i>
+            </a>
+            <a href="" class="me-4">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="" class="me-4">
+              <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="" class="me-4">
+              <i class="fab fa-github"></i>
+            </a>
+          </div>
+          <!-- Right -->
+        </section>
+        <!-- Section: Social media -->
+
+        <!-- Section: Links  -->
+        <section class="">
+          <div class="container text-center text-md-start mt-5">
+            <!-- Grid row -->
+            <div class="row mt-3">
+              <!-- Grid column -->
+              <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                <!-- Content -->
+                <h6 class="text-uppercase fw-bold mb-4">
+                  <i class="fas fa-gem me-3"></i>JERRYCODE
+                </h6>
+                <p>
+                  We are totally committed to bring your image of the application or 
+                  software in your mind to life, with direct collaboration and front feedback from you. We make it happen for you.
+                </p>
+              </div>
+              <!-- Grid column -->
+
+              <!-- Grid column -->
+              <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                <!-- Links -->
+                <h6 class="text-uppercase fw-bold mb-4">
+                  Products
+                </h6>
+                <p>
+                  <a href="#!" class="text-reset">Spring Boot</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-reset">React</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-reset">Photoshop</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-reset">Laravel</a>
+                </p>
+              </div>
+              <!-- Grid column -->
+
+              <!-- Grid column -->
+              <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                <!-- Links -->
+                <h6 class="text-uppercase fw-bold mb-4">
+                  Useful links
+                </h6>
+                <p>
+                  <a href="#!" class="text-reset">Pricing</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-reset">Settings</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-reset">Orders</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-reset">Help</a>
+                </p>
+              </div>
+              <!-- Grid column -->
+
+              <!-- Grid column -->
+              <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                <!-- Links -->
+                <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+                <p><i class="fas fa-home me-3"></i> Dar es Salaam, Posta - IFM</p>
+                <p>
+                  <i class="fas fa-envelope me-3"></i>
+                  info@example.com
+                </p>
+                <p><i class="fas fa-phone me-3"></i> + 01 234 567 88</p>
+                <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p>
+              </div>
+              <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+          </div>
+        </section>
+        <!-- Section: Links  -->
+
+        <!-- Copyright -->
+        <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+          © 2024 Copyright:
+          <a class="fw-bold" href="#">JERRYCODE</a>
+        </div>
+        <!-- Copyright -->
+      </footer>
+      <!-- Footer -->  
+      <script src="{{ asset('node_modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+      <script src="{{ asset('node_modules/jquery/dist/jquery.min.js') }}"></script>
+      <script src="{{ asset('node_modules/@popperjs/core/dist/umd/popper.min.js') }}"></script>
+      <script src="{{ asset('js/custom.js') }}"></script>    
         
   </body>
 </html>

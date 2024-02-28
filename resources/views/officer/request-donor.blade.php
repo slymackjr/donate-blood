@@ -47,7 +47,7 @@
                 <!-- Dropdown menu -->
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <li>
-                        <a class="dropdown-item" href="#">My account</a>
+                        <a class="dropdown-item" href="{{route('staff.profile')}}">My account</a>
                     </li>
 
                     <li>
@@ -123,7 +123,152 @@
             <!-- .card -->
             @endforeach       
           </div>
-        </div> 
+        </div>
+
+         <!-- Pagination links -->
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                  <li class="page-item {{ ($allDonors->currentPage() == 1) ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ $allDonors->previousPageUrl() }}">Previous</a>
+                  </li>
+                  @for ($i = max(1, $allDonors->currentPage() - 1); $i <= min($allDonors->currentPage() + 1, $allDonors->lastPage()); $i++)
+                    <li class="page-item {{ ($allDonors->currentPage() == $i) ? 'active' : '' }}">
+                      <a class="page-link" href="{{ $allDonors->url($i) }}">{{ $i }}</a>
+                    </li>
+                  @endfor
+                  <li class="page-item {{ ($allDonors->currentPage() == $allDonors->lastPage()) ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ $allDonors->nextPageUrl() }}">Next</a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+        <!-- Footer -->
+        <footer class="text-center text-lg-start bg-body-tertiary text-muted">
+          <!-- Section: Social media -->
+          <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+            <!-- Left -->
+            <div class="me-5 d-none d-lg-block">
+              <span>Get connected with us on social networks:</span>
+            </div>
+            <!-- Left -->
+
+            <!-- Right -->
+            <div>
+              <a href="" class="me-4">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="" class="me-4">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="" class="me-4">
+                <i class="fab fa-google"></i>
+              </a>
+              <a href="" class="me-4">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="" class="me-4">
+                <i class="fab fa-linkedin"></i>
+              </a>
+              <a href="" class="me-4">
+                <i class="fab fa-github"></i>
+              </a>
+            </div>
+            <!-- Right -->
+          </section>
+          <!-- Section: Social media -->
+
+          <!-- Section: Links  -->
+          <section class="">
+            <div class="container text-center text-md-start mt-5">
+              <!-- Grid row -->
+              <div class="row mt-3">
+                <!-- Grid column -->
+                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                  <!-- Content -->
+                  <h6 class="text-uppercase fw-bold mb-4">
+                    <i class="fas fa-gem me-3"></i>JERRYCODE
+                  </h6>
+                  <p>
+                    We are totally committed to bring your image of the application or 
+                    software in your mind to life, with direct collaboration and front feedback from you. We make it happen for you.
+                  </p>
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                  <!-- Links -->
+                  <h6 class="text-uppercase fw-bold mb-4">
+                    Products
+                  </h6>
+                  <p>
+                    <a href="#!" class="text-reset">Spring Boot</a>
+                  </p>
+                  <p>
+                    <a href="#!" class="text-reset">React</a>
+                  </p>
+                  <p>
+                    <a href="#!" class="text-reset">Photoshop</a>
+                  </p>
+                  <p>
+                    <a href="#!" class="text-reset">Laravel</a>
+                  </p>
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                  <!-- Links -->
+                  <h6 class="text-uppercase fw-bold mb-4">
+                    Useful links
+                  </h6>
+                  <p>
+                    <a href="#!" class="text-reset">Pricing</a>
+                  </p>
+                  <p>
+                    <a href="#!" class="text-reset">Settings</a>
+                  </p>
+                  <p>
+                    <a href="#!" class="text-reset">Orders</a>
+                  </p>
+                  <p>
+                    <a href="#!" class="text-reset">Help</a>
+                  </p>
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                  <!-- Links -->
+                  <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+                  <p><i class="fas fa-home me-3"></i> Dar es Salaam, Posta - IFM</p>
+                  <p>
+                    <i class="fas fa-envelope me-3"></i>
+                    info@example.com
+                  </p>
+                  <p><i class="fas fa-phone me-3"></i> + 01 234 567 88</p>
+                  <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p>
+                </div>
+                <!-- Grid column -->
+              </div>
+              <!-- Grid row -->
+            </div>
+          </section>
+          <!-- Section: Links  -->
+
+          <!-- Copyright -->
+          <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+            © 2024 Copyright:
+            <a class="fw-bold" href="#">JERRYCODE</a>
+          </div>
+          <!-- Copyright -->
+        </footer>
+        <!-- Footer -->      
         <script src="{{ asset('node_modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('node_modules/jquery/dist/jquery.min.js') }}"></script>
         <script src="{{ asset('node_modules/@popperjs/core/dist/umd/popper.min.js') }}"></script>

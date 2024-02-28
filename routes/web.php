@@ -33,6 +33,8 @@ Route::middleware(['staff.auth'])->get('/our-info', [StaffController::class, 'sh
 Route::middleware(['staff.auth'])->get('/messages', [StaffController::class, 'showContactUs'])->name('staff.contactUs');
 Route::middleware(['staff.auth'])->match(['get', 'post'], '/create-request', [StaffController::class, 'showCreateRequest'])->name('staff.createRequest');
 Route::middleware(['staff.auth'])->post('/submit-request', [StaffController::class, 'submitRequest'])->name('staff.submitRequest');
+Route::middleware(['staff.auth'])->get('/users', [StaffController::class, 'showUsers'])->name('staff.users');
+Route::middleware(['staff.auth'])->get('/staff-profile', [StaffController::class, 'showProfile'])->name('staff.profile');
 
 Route::get('/exit', [StaffController::class, 'logout'])->name('logout.staff')->middleware('staff.auth');  
 
@@ -51,3 +53,5 @@ Route::middleware(['donor.auth'])->post('/home-donor', [DonorController::class, 
 Route::middleware(['donor.auth'])->get('/donor-appointment', [DonorController::class, 'viewAppointments'])->name('donor.showAppointments');
 Route::middleware(['donor.auth'])->get('about-us', [DonorController::class, 'showAboutUs'])->name('donor.aboutUs');
 Route::middleware(['donor.auth'])->get('contact-us', [DonorController::class, 'showContactUs'])->name('donor.contactUs');
+Route::middleware(['donor.auth'])->get('donor-profile', [DonorController::class, 'showProfile'])->name('donor.profile');
+
