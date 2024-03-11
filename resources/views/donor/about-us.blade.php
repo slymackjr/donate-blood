@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="{{ asset('node_modules/@fortawesome/fontawesome-free/css/all.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('node_modules/bootstrap-icons/font/bootstrap-icons.min.css') }}">
+    <style>
+      .highlighted {
+    background-color: yellow;
+}
+
+    </style>
   </head>
   <body>
       <div class="text-center p-3 container-md ">
@@ -21,30 +27,32 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active ps-4 pe-4 text-white" aria-current="page" href="{{route('donor.showRequests')}}"><i class="fa-solid fa-house p-2"></i>Home</a>
+                <a class="nav-link active ps-3 pe-1 text-white" aria-current="page" href="{{route('donor.showRequests')}}"><i class="fa-solid fa-house p-1"></i>Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link  ps-4 pe-4 text-white" href="{{route('donor.showAppointments')}}">
-                <i class="fa-solid fa-calendar-check p-2"></i>  Appointments
+                <a class="nav-link  ps-3 pe-1 text-white" href="{{route('donor.showAppointments')}}">
+                <i class="fa-solid fa-calendar-check p-1"></i>  Appointments
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link  ps-4 pe-4 text-primary" href="{{route('donor.aboutUs')}}">
-                <i class="fa-solid fa-info p-2"></i>  About Us
+                <a class="nav-link  ps-3 pe-1 text-primary" href="{{route('donor.aboutUs')}}">
+                <i class="fa-solid fa-info p-1"></i>  About Us
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link  ps-4 pe-4 text-white" href="{{route('donor.contactUs')}}">
-                <i class="fa-solid fa-phone p-2"></i>  Contact Us
+                <a class="nav-link  ps-3 pe-1 text-white" href="{{route('donor.contactUs')}}">
+                <i class="fa-solid fa-phone p-1"></i>  Contact Us
                 </a>
               </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
-                data-mdb-toggle="dropdown" aria-expanded="false"> <i class="fas fa-user mx-1"></i>{{$username}}</a>
+                <a class="nav-link dropdown-toggle ps-3 pe-1 text-white" href="#" id="navbarDropdown" role="button"
+                data-mdb-toggle="dropdown" aria-expanded="false"> <i class="fas fa-user mx-1 p-1"></i>{{$username}}</a>
                 <!-- Dropdown menu -->
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <li>
-                        <a class="dropdown-item" href="#">My account</a>
+                        <a class="dropdown-item" href="{{route('donor.profile')}}">My account</a>
                     </li>
 
                     <li>
@@ -53,7 +61,13 @@
                       @endauth 
                     </li>
                 </ul>
-            </li>
+              </li>
+              <li class="nav-item">
+                <form class="d-flex ps-3 pe-1" role="search">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                  <button class="btn btn-outline-success text-white" type="submit">Search</button>
+                </form>
+              </li>
             </ul>
           </div>
         </div>
@@ -65,7 +79,7 @@
             </div>
 
             <!-- About 1 - Bootstrap Brain Component -->
-            <section class="py-3 py-md-5 py-xl-8">
+            <section class="py-3 py-md-5 py-xl-8" id="aboutSection">
                 <div class="container">
                     <div class="row gy-3 gy-md-4 gy-lg-0 align-items-lg-center">
                         <div class="col-12 col-lg-6 col-xl-5">
@@ -245,6 +259,35 @@
             <script src="{{ asset('node_modules/jquery/dist/jquery.min.js') }}"></script>
             <script src="{{ asset('node_modules/@popperjs/core/dist/umd/popper.min.js') }}"></script>
             <script src="{{ asset('js/custom.js') }}"></script>    
-        
+           <script>
+              $(document).ready(function(){
+                  var aboutSection = $('#aboutSection');
+                  var originalSectionText = aboutSection.html();
+          
+                  $('form[role="search"]').submit(function(e){
+                      e.preventDefault();
+                      var searchText = $(this).find('input[type="search"]').val().trim().toLowerCase();
+                      searchAndHighlight(searchText);
+                  });
+          
+                  $('form[role="search"] input[type="search"]').on('input', function() {
+                      var searchText = $(this).val().trim().toLowerCase();
+                      if (searchText === '') {
+                          // If search input is empty, remove highlighting
+                          aboutSection.html(originalSectionText);
+                      } else {
+                          // Highlight the searched word
+                          searchAndHighlight(searchText);
+                      }
+                  });
+          
+                  function searchAndHighlight(searchText) {
+                      var sectionText = aboutSection.text().toLowerCase();
+                      var highlightedText = sectionText.replace(new RegExp(searchText, 'gi'), '<span class="highlighted">$&</span>');
+                      aboutSection.html(originalSectionText); // Reset to original text
+                      aboutSection.html(highlightedText); // Apply highlighting
+                  }
+              });
+           </script>  
   </body>
 </html>

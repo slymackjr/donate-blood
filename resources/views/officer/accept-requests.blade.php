@@ -21,29 +21,31 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active ps-4 pe-4 text-white" aria-current="page" href="{{route('staff.requestDonor')}}"><i class="fa-solid fa-house p-2"></i>Home</a>
+                <a class="nav-link active ps-3 pe-1 text-white" aria-current="page" href="{{route('staff.requestDonor')}}"><i class="fa-solid fa-house p-1"></i>Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link  ps-4 pe-4 text-white" href="{{route('staff.viewRequests')}}"><i class="fa-solid fa-list p-2"></i>Sent Requests</a>
+                <a class="nav-link  ps-3 pe-1 text-white" href="{{route('staff.viewRequests')}}"><i class="fa-solid fa-list p-1"></i>Sent Requests</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link  ps-4 pe-4 text-primary" href="{{route('staff.viewAcceptedRequests')}}">
-                <i class="fa-solid fa-calendar-check p-2"></i>  Accepted Requests
+                <a class="nav-link  ps-3 pe-1 text-primary" href="{{route('staff.viewAcceptedRequests')}}">
+                <i class="fa-solid fa-calendar-check p-1"></i>  Accepted Requests
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link  ps-4 pe-4 text-white" href="{{route('staff.aboutUs')}}">
-                <i class="fa-solid fa-info p-2"></i>  About Us
+                <a class="nav-link  ps-3 pe-1 text-white" href="{{route('staff.aboutUs')}}">
+                <i class="fa-solid fa-info p-1"></i>  About Us
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link  ps-4 pe-4 text-white" href="{{route('staff.contactUs')}}">
-                <i class="fa-solid fa-phone p-2"></i>  Contact Us
+                <a class="nav-link  ps-3 pe-1 text-white" href="{{route('staff.contactUs')}}">
+                <i class="fa-solid fa-phone p-1"></i>  Contact Us
                 </a>
               </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
-                data-mdb-toggle="dropdown" aria-expanded="false"> <i class="fas fa-user mx-1"></i>{{session('email')}}</a>
+                <a class="nav-link dropdown-toggle ps-3 pe-1 text-white" href="#" id="navbarDropdown" role="button"
+                data-mdb-toggle="dropdown" aria-expanded="false"> <i class="fas fa-user mx-1 p-1"></i>{{session('email')}}</a>
                 <!-- Dropdown menu -->
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <li>
@@ -56,6 +58,12 @@
                       @endauth 
                     </li>
                 </ul>
+            </li>
+            <li class="nav-item">
+              <form class="d-flex ps-3 pe-1" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success text-white" type="submit">Search</button>
+              </form>
             </li>
             </ul>
           </div>
