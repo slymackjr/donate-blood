@@ -19,10 +19,10 @@
   <body>
       <div class="text-center p-3 container-md ">
         <a href="{{route('index.home')}}">
-          <img src="img/logo1.png" class="h-25 w-50 rounded" alt="...">
+          <img src="img/logo1.png" class="rounded" alt="...">
         </a>
       </div>
-      <div id="intro-example" class="p-5 text-center bg-image align-items-center">
+      <div id="intro-example" class="text-center bg-image align-items-center">
         <section>
             <div class="container h-100">
               <div class="row d-flex justify-content-center align-items-center h-100">

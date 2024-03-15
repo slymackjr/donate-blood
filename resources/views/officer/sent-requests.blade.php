@@ -14,7 +14,7 @@
   </head>
   <body>
       <div class="text-center p-3 container-md ">
-        <img src="img/logo1.png" class="h-25 w-50 rounded" alt="...">
+        <img src="img/logo1.png" class="rounded" alt="...">
       </div>
       <nav class="navbar navbar-expand-lg bg-primary">
         <div class="container-fluid">

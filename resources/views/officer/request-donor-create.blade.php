@@ -11,7 +11,7 @@
   </head>
   <body>
       <div class="text-center p-3 container-md ">
-        <img src="img/logo1.png" class="h-25 w-50 rounded" alt="...">
+        <img src="img/logo1.png" class="rounded" alt="...">
       </div>
       <nav class="navbar navbar-expand-lg bg-primary">
         <div class="container-fluid">
@@ -21,7 +21,7 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active ps-3 pe-1 text-white" aria-current="page" href="{{route('staff.requestDonor')}}">
+                <a class="nav-link active ps-3 pe-1 text-primary" aria-current="page" href="{{route('staff.requestDonor')}}">
                   <i class="fa-solid fa-house p-1"></i>Home</a>
               </li>
               <li class="nav-item">
